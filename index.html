@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#0a0a0b"/>
+<title>BonBern — Think Tank Labs · Perception Building Lab</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+<!-- Styles -->
+<link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body class="is-loading">
+
+<!-- Global WebGL Background Ribbon -->
+<div id="ribbon-root" style="position: fixed; inset: 0; z-index: -2; pointer-events: auto;"></div>
+
+<!-- ════════════════════════════════════════
+     FILM GRAIN OVERLAY
+     ════════════════════════════════════════ -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ════════════════════════════════════════
+     CUSTOM CURSOR
+     ════════════════════════════════════════ -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ════════════════════════════════════════
+     PRELOADER
+     ════════════════════════════════════════ -->
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <svg class="bb-mark" viewBox="0 0 102.14 158.04" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BonBern mark">
+      <g class="bub" data-bub="4" style="transform-origin:49.67px 49.67px;opacity:0">
+        <circle fill="#e42218" cx="49.67" cy="49.67" r="49.67"/>
+        <circle class="halo" fill="rgba(228,34,24,.45)" cx="52.4" cy="52.4" r="49.5" style="transform-origin:52.4px 52.4px"/>
+      </g>
+      <g class="bub" data-bub="3" style="transform-origin:28.97px 113.3px;opacity:0">
+        <circle fill="#e42218" cx="28.97" cy="113.3" r="11.65"/>
+        <circle class="halo" fill="rgba(228,34,24,.45)" cx="30.44" cy="114" r="11.7" style="transform-origin:30.44px 114px"/>
+      </g>
+      <g class="bub" data-bub="2" style="transform-origin:20.36px 136.39px;opacity:0">
+        <circle fill="#e42218" cx="20.36" cy="136.39" r="7.18"/>
+        <circle class="halo" fill="rgba(228,34,24,.45)" cx="21.35" cy="136.5" r="7.2" style="transform-origin:21.35px 136.5px"/>
+      </g>
+      <g class="bub" data-bub="1" style="transform-origin:11.14px 153px;opacity:0">
+        <circle fill="#e42218" cx="11.14" cy="153" r="4.45"/>
+        <circle class="halo" fill="rgba(228,34,24,.45)" cx="11.6" cy="152.6" r="4.45" style="transform-origin:11.6px 152.6px"/>
+      </g>
+    </svg>
+    <div class="preloader-text">Perception Building Lab</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     CIRCULAR SIDE NAV
+     ════════════════════════════════════════ -->
+<nav class="side-nav" id="sideNav">
+  <div class="side-nav-center">
+    <div class="side-nav-logo">BB</div>
+  </div>
+  <div class="side-nav-wheel" id="sideNavWheel">
+    <a href="#about" class="side-nav-item"><span>About</span></a>
+    <a href="#process" class="side-nav-item"><span>Process</span></a>
+    <a href="#clients" class="side-nav-item"><span>Clients</span></a>
+    <a href="#showcase" class="side-nav-item"><span>Work</span></a>
+    <a href="#contact" class="side-nav-item"><span>Contact</span></a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     HERO
+     ════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-video-wrap">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto"
+           src="/videos/showcase-2.mp4"></video>
+    <div class="hero-overlay"></div>
+    <div class="hero-glow" id="heroGlow"></div>
+  </div>
+  
+  <!-- Massive WebGL Wordmark Container -->
+  <div id="wordmark-root" style="position: absolute; inset: 0; z-index: 1; pointer-events: auto;"></div>
+  
+  <div class="hero-content" style="pointer-events: none;">
+    <div class="hero-eyebrow">Because we can, and we love it</div>
+    <p class="hero-sub" id="heroSub">From MVP to <span class="accent">market domination</span> — your reliable partner in perception design, celebrity marketing, and <span class="accent">culture-shifting campaigns</span>.</p>
+  </div>
+  <div class="hero-scroll" id="heroScroll">
+    Scroll
+    <svg class="hero-scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     MANIFESTO (Scroll-driven text reveal)
+     ════════════════════════════════════════ -->
+<section class="manifesto section" id="manifesto">
+  <div class="manifesto-bg">
+    <video autoplay muted loop playsinline preload="auto"
+           src="/videos/manifesto.mp4"></video>
+  </div>
+  <div class="manifesto-text" id="manifestoText">
+    <div class="m-line">Building <span class="accent">iconic images.</span></div>
+    <div class="m-line">Crafting <span class="accent">viral campaigns.</span></div>
+    <div class="m-line">Solving <span class="accent">real-world problems.</span></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     ABOUT US
+     ════════════════════════════════════════ -->
+<section class="section about" id="about">
+  <div class="about-grid">
+    <div class="about-video-wrap">
+      <video class="about-video" autoplay muted loop playsinline preload="auto"
+             src="/videos/about.mp4"></video>
+      <div class="about-video-overlay"></div>
+    </div>
+    <div class="about-content">
+      <div class="section-eyebrow">About Us</div>
+      <h2 class="about-title about-line">A Think Tank for the Age of Perception</h2>
+      <!-- Inkdrop WebGL Text -->
+      <div id="inkdrop-root" style="margin-top: 40px; min-height: 200px;"></div>
+      <p class="about-desc about-line">
+        Our secret? A rare mix of <span class="highlight">psychological insight</span>,
+        creative storytelling, and tech-powered execution.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     PROCESS (Horizontal Scroll)
+     ════════════════════════════════════════ -->
+<section class="section process" id="process">
+  <div class="section-eyebrow">Our Process</div>
+  <div class="process-header">
+    <h2 class="process-title">How We Shape Perception</h2>
+    <p class="process-subtitle">Whether we're building celebrity personas, launching brand movements, or solving public challenges — here's how we work.</p>
+  </div>
+  <div class="process-progress">
+    <div class="process-progress-bar" id="processBar"></div>
+  </div>
+  <div class="process-track-wrap" id="processWrap">
+    <div class="process-track" id="processTrack">
+      <div class="process-card" data-hover>
+        <div class="process-num">01</div>
+        <h3 class="process-card-title">Understand the Brief</h3>
+        <p class="process-card-desc">We decode what's said, what's unsaid, and why it matters. This is where the foundation of perception begins.</p>
+      </div>
+      <div class="process-card" data-hover>
+        <div class="process-num">02</div>
+        <h3 class="process-card-title">Decode Behavior</h3>
+        <p class="process-card-desc">We dive deep into psychology, audience patterns, and cultural signals — so that what we create is not just creative, but correctly wired.</p>
+      </div>
+      <div class="process-card" data-hover>
+        <div class="process-num">03</div>
+        <h3 class="process-card-title">Design the Narrative</h3>
+        <p class="process-card-desc">Every message is engineered to not just be seen, but felt and remembered. We craft stories that stick.</p>
+      </div>
+      <div class="process-card" data-hover>
+        <div class="process-num">04</div>
+        <h3 class="process-card-title">Develop Assets</h3>
+        <p class="process-card-desc">From content to campaigns, we build assets that are platform-fit — digital, physical, or phygital. We don't just follow trends. We often start them.</p>
+      </div>
+      <div class="process-card" data-hover>
+        <div class="process-num">05</div>
+        <h3 class="process-card-title">Adapt & Amplify</h3>
+        <p class="process-card-desc">We observe how the world reacts, learn from signals, and evolve the message accordingly. Real-time strategy, real results.</p>
+      </div>
+      <div class="process-card" data-hover>
+        <div class="process-num">06</div>
+        <h3 class="process-card-title">Reflect & Reinvent</h3>
+        <p class="process-card-desc">We circle back, learn what shifted perception, and explore new opportunities. What we build today should make tomorrow smarter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     CLIENTS
+     ════════════════════════════════════════ -->
+<section class="section clients" id="clients">
+  <div class="clients-header">
+    <div class="section-eyebrow" style="justify-content:center">Who We Work With</div>
+    <h2 class="clients-title">Trusted by Icons</h2>
+    <p class="clients-subtitle">Over the years, we've collaborated with some of the most influential names across music, media, and brands.</p>
+  </div>
+
+  <div class="clients-group">
+    <div class="clients-group-label">Artists</div>
+    <div class="clients-grid">
+      <div class="client-chip" data-hover>Badshah</div>
+      <div class="client-chip" data-hover>Sunidhi Chauhan</div>
+      <div class="client-chip" data-hover>Jasleen Royal</div>
+      <div class="client-chip" data-hover>Tanishk Bagchi</div>
+    </div>
+  </div>
+
+  <div class="clients-group">
+    <div class="clients-group-label">Labels</div>
+    <div class="clients-grid">
+      <div class="client-chip" data-hover>Universal Music Group</div>
+      <div class="client-chip" data-hover>Saregama</div>
+      <div class="client-chip" data-hover>T-Series</div>
+      <div class="client-chip" data-hover>Artiste First</div>
+    </div>
+  </div>
+
+  <div class="clients-group">
+    <div class="clients-group-label">Brands</div>
+    <div class="clients-grid">
+      <div class="client-chip" data-hover>SonyLiv</div>
+      <div class="client-chip" data-hover>Discovery</div>
+      <div class="client-chip" data-hover>Hindustan Times</div>
+      <div class="client-chip" data-hover>Nobel Chemist</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     VIDEO SHOWCASE
+     ════════════════════════════════════════ -->
+<section class="section showcase" id="showcase">
+  <div class="showcase-header">
+    <div class="section-eyebrow" style="justify-content:center">Our Work</div>
+    <h2 class="showcase-title">Cinematic Storytelling</h2>
+  </div>
+  <div class="showcase-grid">
+    <div class="showcase-item" data-hover>
+      <video autoplay muted loop playsinline preload="auto"
+             src="/videos/showcase-1.mp4"></video>
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Campaign Reel</span>
+      </div>
+      <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+    <div class="showcase-item" data-hover>
+      <video autoplay muted loop playsinline preload="auto"
+             src="/videos/showcase-2.mp4"></video>
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Visual Identity</span>
+      </div>
+      <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+    <div class="showcase-item" data-hover>
+      <video autoplay muted loop playsinline preload="auto"
+             src="/videos/showcase-3.mp4"></video>
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Brand Film</span>
+      </div>
+      <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+    <div class="showcase-item" data-hover>
+      <video autoplay muted loop playsinline preload="auto"
+             src="/videos/showcase-4.mp4"></video>
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Media Production</span>
+      </div>
+      <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+    <div class="showcase-item" data-hover>
+      <video autoplay muted loop playsinline preload="auto"
+             src="/videos/showcase-5.mp4"></video>
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Celebrity Imaging</span>
+      </div>
+      <div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     FOUNDER
+     ════════════════════════════════════════ -->
+<section class="section founder" id="founder">
+  <div class="founder-bg"></div>
+  <div class="founder-content">
+    <div class="section-eyebrow">The Mind Behind BonBern</div>
+    <blockquote class="founder-quote">
+      "We don't just market. We shape how people are seen, heard, and remembered."
+    </blockquote>
+    <div class="founder-name">Aakashraj Kusum Ambre</div>
+    <div class="founder-role">Founder & CEO · Behavioral Strategist · Celebrity Consultant</div>
+    <p class="founder-bio">
+      Aakashraj blends over a decade of experience in advertising, celebrity marketing, and
+      psychology-driven strategy. BonBern is his brainchild — built to help individuals and brands
+      shape how they are seen, heard, and remembered. From crafting iconic public personas to
+      launching culture-shifting campaigns, his approach combines behavioral science, creative
+      storytelling, and a deep understanding of Indian culture, media, and tech.
+    </p>
+  </div>
+  <div class="founder-deco" aria-hidden="true"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     CTA
+     ════════════════════════════════════════ -->
+<section class="section cta" id="contact">
+  <div class="cta-glow" aria-hidden="true"></div>
+  <div class="section-eyebrow">Ready?</div>
+  <h2 class="cta-title">
+    Let's Build Something<br/>Worth <span class="accent">Remembering</span><span class="accent">.</span>
+  </h2>
+  <a href="mailto:hello@bonbern.com" class="cta-btn" id="ctaBtn" data-hover data-magnetic>
+    Start a Conversation
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </a>
+</section>
+
+<!-- ════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-brand">BonBern</div>
+  <div class="footer-links">
+    <a href="#about" class="footer-link" data-hover>About</a>
+    <a href="#process" class="footer-link" data-hover>Process</a>
+    <a href="#clients" class="footer-link" data-hover>Clients</a>
+    <a href="#showcase" class="footer-link" data-hover>Work</a>
+    <a href="#contact" class="footer-link" data-hover>Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 BonBern Think Tank Labs. All rights reserved. · Image · Culture · Systems</div>
+</footer>
+
+<script type="module" src="/src/main.js"></script>
+<script type="module" src="/src/wordmark-mount.jsx"></script>
+<script type="module" src="/src/ribbon-mount.jsx"></script>
+<script type="module" src="/src/inkdrop-mount.jsx"></script>
+</body>
+</html>

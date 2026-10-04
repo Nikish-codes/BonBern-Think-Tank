@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BonBern bubble mark — animated</title>
+<style>
+  :root { --brand: #d0362b; }
+  body { margin:0; min-height:100vh; display:grid; place-items:center; background:#0b0b0d; }
+  .bb-mark { height: 340px; width:auto; overflow: visible; }
+  .bb-mark g.bub, .bb-mark .halo { transform-box: view-box; }
+  @media (prefers-reduced-motion: reduce) {
+    .bb-mark g.bub { opacity: 1 !important; transform: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Paint order is back-to-front: the large circle sits behind, so each
+     bubble emerges from BEHIND the one that launched it, and every bubble
+     already on screen stays fully visible in front of it. -->
+<svg class="bb-mark" viewBox="0 0 102.14 158.04" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BonBern mark">
+  <g class="bub" data-bub="4" style="transform-origin:49.67px 49.67px;opacity:0">
+    <circle fill="var(--brand)" cx="49.67" cy="49.67" r="49.67"/>
+    <circle class="halo" fill="rgba(208,54,43,.5)" cx="52.4" cy="52.4" r="49.5" style="transform-origin:52.4px 52.4px"/>
+  </g>
+  <g class="bub" data-bub="3" style="transform-origin:28.97px 113.3px;opacity:0">
+    <circle fill="var(--brand)" cx="28.97" cy="113.3" r="11.65"/>
+    <circle class="halo" fill="rgba(208,54,43,.5)" cx="30.44" cy="114" r="11.7" style="transform-origin:30.44px 114px"/>
+  </g>
+  <g class="bub" data-bub="2" style="transform-origin:20.36px 136.39px;opacity:0">
+    <circle fill="var(--brand)" cx="20.36" cy="136.39" r="7.18"/>
+    <circle class="halo" fill="rgba(208,54,43,.5)" cx="21.35" cy="136.5" r="7.2" style="transform-origin:21.35px 136.5px"/>
+  </g>
+  <g class="bub" data-bub="1" style="transform-origin:11.14px 153px;opacity:0">
+    <circle fill="var(--brand)" cx="11.14" cy="153" r="4.45"/>
+    <circle class="halo" fill="rgba(208,54,43,.5)" cx="11.6" cy="152.6" r="4.45" style="transform-origin:11.6px 152.6px"/>
+  </g>
+</svg>
+
+<script>
+(function () {
+  var root = document.querySelector('.bb-mark');
+  if (!root) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    root.querySelectorAll('.bub').forEach(function (g) { g.style.opacity = '1'; });
+    return;
+  }
+
+  // dx / dy = vector from the parent bubble's centre to this bubble's centre.
+  var SPEC = [
+    { n: 1, dx: 0,    dy: 0,      at: 0,    dur: 620  },
+    { n: 2, dx: 9.22, dy: -16.61, at: 400,  dur: 680,  parent: 1 },
+    { n: 3, dx: 8.61, dy: -23.09, at: 840,  dur: 760,  parent: 2 },
+    { n: 4, dx: 20.7, dy: -63.63, at: 1340, dur: 1100, parent: 3 }
+  ];
+
+  var live = [];
+  var EASE = 'cubic-bezier(.22,.68,.32,1)';
+
+  function get(n) { return root.querySelector('[data-bub="' + n + '"]'); }
+  function tr(dx, dy, f) {
+    return 'translate(' + (-dx * f).toFixed(2) + 'px,' + (-dy * f).toFixed(2) + 'px)';
+  }
+
+  // Stretch along travel, squash on arrival, spring, then land on an exact
+  // identity transform — the bubble locks into its designed position and
+  // never moves again.
+  function launch(dx, dy) {
+    return [
+      { transform: tr(dx, dy, 1)    + ' scale(0.05,0.05)', opacity: 0, offset: 0 },
+      { transform: tr(dx, dy, 0.88) + ' scale(0.30,0.62)', opacity: 1, offset: 0.14 },
+      { transform: tr(dx, dy, 0.44) + ' scale(0.62,0.94)', opacity: 1, offset: 0.32 },
+      { transform: tr(dx, dy, 0.05) + ' scale(1.22,0.82)', opacity: 1, offset: 0.54 },
+      { transform: tr(dx, dy, 0)    + ' scale(0.91,1.10)', opacity: 1, offset: 0.70 },
+      { transform: tr(dx, dy, 0)    + ' scale(1.05,0.96)', opacity: 1, offset: 0.84 },
+      { transform: tr(dx, dy, 0)    + ' scale(0.99,1.01)', opacity: 1, offset: 0.93 },
+      { transform: 'translate(0px,0px) scale(1,1)',        opacity: 1, offset: 1 }
+    ];
+  }
+
+  // The translucent ring trails the solid core, then settles flush.
+  function haloDrag(dx, dy) {
+    return [
+      { transform: tr(dx, dy, 0.22) + ' scale(0.88)', offset: 0 },
+      { transform: tr(dx, dy, 0.30) + ' scale(0.95)', offset: 0.28 },
+      { transform: tr(dx, dy, 0.06) + ' scale(1.08)', offset: 0.60 },
+      { transform: 'translate(0px,0px) scale(0.98)',  offset: 0.82 },
+      { transform: 'translate(0px,0px) scale(1,1)',   offset: 1 }
+    ];
+  }
+
+  // Parent recoil: fill 'none' so the parent returns to its exact designed
+  // shape the instant the recoil ends. Nothing is left deformed.
+  var RECOIL = [
+    { transform: 'scale(1,1)',       offset: 0 },
+    { transform: 'scale(1.10,0.90)', offset: 0.24 },
+    { transform: 'scale(0.96,1.05)', offset: 0.56 },
+    { transform: 'scale(1.01,0.99)', offset: 0.80 },
+    { transform: 'scale(1,1)',       offset: 1 }
+  ];
+
+  function play(rate) {
+    rate = rate || 1;
+    live.forEach(function (a) { a.cancel(); });
+    live = [];
+
+    SPEC.forEach(function (s) {
+      var g = get(s.n);
+      var halo = g.querySelector('.halo');
+      g.style.opacity = '0';
+
+      live.push(g.animate(launch(s.dx, s.dy), {
+        duration: s.dur * rate, delay: s.at * rate, fill: 'both', easing: EASE
+      }));
+      live.push(halo.animate(haloDrag(s.dx, s.dy), {
+        duration: (s.dur + 160) * rate, delay: (s.at + 60) * rate, fill: 'both', easing: EASE
+      }));
+
+      if (s.parent) {
+        live.push(get(s.parent).animate(RECOIL, {
+          duration: 400 * rate, delay: (s.at - 40) * rate, fill: 'none', easing: 'ease-out'
+        }));
+      }
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { play(1); io.disconnect(); }
+      });
+    }, { threshold: 0.4 });
+    io.observe(root);
+  } else {
+    play(1);
+  }
+
+  window.bbReplay = play;
+})();
+</script>
+</body>
+</html>
