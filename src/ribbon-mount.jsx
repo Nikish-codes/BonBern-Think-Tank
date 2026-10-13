@@ -8,14 +8,14 @@ if (rootElement) {
   const root = createRoot(rootElement);
   root.render(
     <RibbonGlow 
-      background="#050506"
-      color1="#1c1c1f"
-      color2="#080809"
-      speed={35}
-      size={150}
-      angle={-45}
-      reach={400}
-      hover={150}
+      background="#000000"
+      color1="#1c1c1c"
+      color2="#0c0c0c"
+      speed={25}
+      size={180}
+      angle={-30}
+      reach={0}
+      hover={0}
     />
   );
 }

@@ -33,10 +33,10 @@ const float TAU = 6.28318530718;
 const float LAYERS = ${LAYERS.toFixed(1)};
 const float TWIST = ${TWIST.toFixed(3)};
 const float DRAG = ${DRAG.toFixed(3)};
-const float GAIN = 0.62;
-const vec2 CENTRE = vec2(-0.62, 0.24);
+const float GAIN = 0.72;
+const vec2 CENTRE = vec2(0.0, 0.0);
 const float TILT = 0.6;
-const float ZOOM = 1.05;
+const float ZOOM = 0.92;
 const float THETA = 2.13;
 const float SHEAR = 0.963;
 const float SHRINK = 0.953;
@@ -80,7 +80,7 @@ void main() {
   }
   vec3 x = max(col * GAIN, 0.0);
   col = (x * (2.51 * x + 0.03)) / (x * (2.43 * x + 0.59) + 0.14);
-  col = pow(clamp(col, 0.0, 1.0), vec3(0.85, 0.92, 0.98));
+  col = pow(clamp(col, 0.0, 1.0), vec3(1.0, 1.0, 1.0));
   col *= 1.0 - smoothstep(0.5, 1.6, length(pos)) * 0.07;
   o = vec4(col, 1.0);
 }
@@ -105,7 +105,9 @@ void main() {
   float strength = clamp(max(L.r, max(L.g, L.b)), 0.0, 1.0);
   vec3 paper = uBg * (1.0 - strength) + L * 0.96;
   vec3 col = mix(dark, paper, uPaper);
-  col += (ign(frag, floor(uTime * 24.0)) - 0.5) / 255.0;
+  if (strength > 0.005) {
+    col += (ign(frag, floor(uTime * 24.0)) - 0.5) / 255.0;
+  }
   o = vec4(clamp(col, 0.0, 1.0), 1.0);
 }
 `

@@ -1,0 +1,20 @@
+node_modules
+dist
+.DS_Store
+*.log
+
+# Non-essential raw source assets, archives, and documents in root
+/BonBern Client List/
+/celebs/
+/extracted_animation/
+/scratch/
+*.zip
+*.pdf
+/Image 1 without effect.png
+/bonbern-cinematic-gallery-v2.html
+
+# Intermediate / unused raw images
+/public/images/clients/[0-9]*.png
+/public/images/clients/processed/
+/public/images/hero-alt-1.png
+/public/images/hero-bg.jpg

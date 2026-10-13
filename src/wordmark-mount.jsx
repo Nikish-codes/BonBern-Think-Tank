@@ -16,8 +16,8 @@ if (rootElement) {
         letterSpacing: '-0.04em'
       }} 
       background="transparent"
-      textColor="#e42218"
-      shade="rgba(0,0,0,0.1)"
+      textColor="#ffffff"
+      shade="#ffffff"
       accent="transparent"
       reach={280}
       speed={60}
